@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         QFontDatabase.addApplicationFont("designs/Iosevka Bold.ttf")
-        self.setWindowTitle(f'Печать QR Kvant 2024 v0.1 Бумага 58/20')
+        self.setWindowTitle(f'Печать QR Kvant 2024 v0.1 Бумага 58 на 20')
 
         self.ui.pushButton_set_print.clicked.connect(self.on_user_set_print)
         self.ui.pushButton_qr.clicked.connect(lambda: self.user_changed_code_type(QR_TYPE.QR_CUB))
