@@ -1,8 +1,11 @@
 import clr
 import sys
-
+import os
 import win32print
-import win32ui
+
+from enuuuums import QR_TYPE
+
+
 class CPrinter:
     def __init__(self):
         self.__printer_name = None
@@ -10,30 +13,17 @@ class CPrinter:
         sys.path.append(r'../LabelPrinterLibrary.dll')
         # Загрузите вашу DLL:
         clr.AddReference('LabelPrinterLibrary')
+        self.__folder_name = "barcode_templates"
 
-        self.standart_ezpl = "\
-                ^Q8,3\n\
-                ^W48\n\
-                ^H10\n\
-                ^P1\n\
-                ^S2\n\
-                ^AT\n\
-                ^C1\n\
-                ^R0\n\
-                ~Q+0\n\
-                ^O0\n\
-                ^D0\n\
-                ^E18\n\
-                ~R255\n\
-                ^L\n\
-                Dy2-me-dd\n\
-                Th:m:s\n\
-                Y37,153,Image3-97\n\
-                Y37,153,Image2-72\n\
-                Y33,10,WindowText1-17\n\
-                BQ,92,8,2,5,20,0,3,THIS_TEST\n\
-                E\n\n"
-        self.standart_ezpl = self.standart_ezpl.replace(" ", "")
+    @classmethod
+    def get_max_text_len(cls, qr_type: QR_TYPE) -> int:
+        match qr_type:
+            case QR_TYPE.QR_CUB:
+                return 57
+            case QR_TYPE.QR_CODE_NO_TEXT:
+                return 19
+            case QR_TYPE.QR_CODE_WITH_TEXT:
+                return 19
 
     def set_printer_name(self, pr_name: str):
         self.__printer_name = pr_name
@@ -64,22 +54,42 @@ class CPrinter:
         if len(printer_cleared_data_list) > 0:
             return printer_cleared_data_list
 
+    def get_barcode_file_name(self, qr_type: QR_TYPE) -> str | None:
+        match qr_type:
+            case QR_TYPE.QR_CUB:
+                return "barcode_template_qr"
+            case QR_TYPE.QR_CODE_NO_TEXT:
+                return "barcode_template_no_text"
+            case QR_TYPE.QR_CODE_WITH_TEXT:
+                return "barcode_template_with_text"
 
-    def send_print_label(self, tricolor_key: str) -> bool:
-        if not self.__printer_name:
+    def send_print_label(self, text: str, qr_type: QR_TYPE) -> bool:
+        if not self.get_current_printer_name():
             return False
+        print(1)
+        if len(text) > 0:
+            if os.path.exists(self.__folder_name):
+                current_file = self.get_barcode_file_name(qr_type)
+                if current_file:
+                    with open(f'{self.__folder_name}/{current_file}.txt', 'r') as file:
+                        ezpl_data = file.read()
+                        if len(ezpl_data):
+                            match qr_type:
+                                case QR_TYPE.QR_CUB:
+                                    ezpl_data = ezpl_data.replace("REPLACE_TEXT", text)
+                                    ezpl_data = ezpl_data.replace("REPLACE_COUNT", str(len(text)))
+                                    print(ezpl_data)
+                                case QR_TYPE.QR_CODE_NO_TEXT:
+                                    ezpl_data = ezpl_data.replace("REPLACE_TEXT", text)
+                                case QR_TYPE.QR_CODE_WITH_TEXT:
+                                    ezpl_data = ezpl_data.replace("REPLACE_TEXT", text)
+                                case _:
+                                    return False
 
-        if len(tricolor_key) > 0:
+                            self.__print_label(ezpl_data)
+                            return True
+                # нельзя впереди этикетки что бы были пробелы!!!!!!
+                # в документе должен быть пробел в самом конце после E
 
-            with open('../barcode_template.txt', 'w+') as file:
-                ezpl_data = file.read()
-                if not len(ezpl_data):
-                    file.write(self.standart_ezpl)
-                    ezpl_data = self.standart_ezpl
-                ezpl_data = ezpl_data.replace("THIS_TEST", tricolor_key)
 
-            # нельзя впереди этикетки что бы были пробелы!!!!!!
-            # в документе должен быть пробел в самом конце после E
-
-            self.__print_label(ezpl_data)
-            return True
+        return False

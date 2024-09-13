@@ -1,5 +1,4 @@
 from datetime import datetime
-import re
 from PySide6.QtWidgets import QMessageBox
 from PySide6 import QtWidgets
 from PySide6.QtGui import QIcon, QFont
@@ -27,17 +26,12 @@ def get_rules_text() -> str:
 
 def get_about_text() -> str:
     current_year = datetime.now().year
-    return ("Программа для сканировки Tricolor ID.\n\n"
+    return ("Программа для печати QR и штрих-кодов.\n\n"
             "Все права принадлежат ООО 'Квант'.\n\n"
             "Разработчик: Рязанов Н.В.\n"
             f"По всем интересующим вопросам и пожеланиям обращайтесь на почту {INFO_CURRENT_ADMIN_EMAIL}\n\n"
             f"\t\t\t{current_year} г.")
 
-
-def get_instruction_text() -> str:
-    return (
-        "\n\n"
-    )
 
 
 def send_message_box(icon_style, text: str, title: str, variant_yes: str, variant_no: str, callback=None):
@@ -76,64 +70,3 @@ def send_message_box(icon_style, text: str, title: str, variant_yes: str, varian
     msg.exec()
     return msg
 
-
-def get_current_unix_time() -> int:
-    return int(int(datetime.now().timestamp()))
-
-
-def convert_date_from_sql_format_ex(date: any):
-    if isinstance(date, str):
-        string = date.split(".")[0]
-        if string is False:
-            return ""
-        else:
-            return string
-    else:
-        return "-"
-
-
-def convert_date_from_sql_format(date: str):
-    string = date.split(".")[0]
-    if string is False:
-        string = ""
-    return string
-
-
-def is_tv_sn_text_valid(text: str) -> bool:
-    clen = len(text)
-    if clen < 9 or clen >= 35:
-        return False
-
-    if re.search(r'[^A-Z0-9]', text):
-        return False
-
-    return True
-
-def is_tricolor_text_valid(text: str) -> bool:
-    clen = len(text)
-    if clen < 9 or clen >= 35:
-        return False
-
-    if re.search(r'[^0-9]', text):
-        return False
-
-    return True
-
-
-def is_pattern_match(pattern: str, data: str) -> bool:
-    if len(pattern) == len(data):
-        pattern.upper()
-        data.upper()
-        divided_patten = list(pattern)
-        divided_data = list(data)
-        for symbol in range(len(divided_patten)):
-            if divided_patten[symbol] == '*':
-                pass
-            else:
-                if divided_patten[symbol] == divided_data[symbol]:
-                    pass
-                else:
-                    return False
-        return True
-    else:
-        return False

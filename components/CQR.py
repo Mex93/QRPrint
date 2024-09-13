@@ -50,3 +50,4 @@ class QR:
                 main_window.pushButton_code_no_text.setFlat(status)
             case QR_TYPE.QR_CODE_WITH_TEXT:
                 main_window.pushButton_code_with_text.setFlat(status)
+

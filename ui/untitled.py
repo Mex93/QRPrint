@@ -77,6 +77,7 @@ class Ui_MainWindow(object):
         font1 = QFont()
         font1.setPointSize(12)
         self.lineEdit_input_text.setFont(font1)
+        self.lineEdit_input_text.setInputMethodHints(Qt.InputMethodHint.ImhUppercaseOnly)
         self.lineEdit_input_text.setMaxLength(64)
         self.lineEdit_input_text.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
