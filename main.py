@@ -62,7 +62,10 @@ class MainWindow(QMainWindow):
         self.ui.lineEdit_input_text.returnPressed.connect(self.on_user_now_print)
         self.ui.lineEdit_input_text.setEnabled(False)
 
-    def is_printing_now(self):
+    def is_clear_field(self) -> bool:
+        return self.ui.checkBox_is_clear.isChecked()
+
+    def is_printing_now(self) -> bool:
         return self.ui.checkBox_is_printing_now.isChecked()
 
     def on_user_now_print(self):
@@ -135,6 +138,9 @@ class MainWindow(QMainWindow):
                              variant_yes="Ок", variant_no="", callback=None)
 
             return
+        if self.is_clear_field():
+            self.ui.lineEdit_input_text.clear()
+
 
     def user_changed_code_type(self, qr_type: QR_TYPE):
         QR.set_switch(qr_type)

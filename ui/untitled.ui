@@ -83,6 +83,13 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QCheckBox" name="checkBox_is_clear">
+             <property name="text">
+              <string>Очищать поле после каждой печати</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>

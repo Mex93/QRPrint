@@ -66,6 +66,11 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.checkBox_is_printing_now)
 
+        self.checkBox_is_clear = QCheckBox(self.groupBox)
+        self.checkBox_is_clear.setObjectName(u"checkBox_is_clear")
+
+        self.verticalLayout.addWidget(self.checkBox_is_clear)
+
 
         self.verticalLayout_4.addWidget(self.groupBox)
 
@@ -191,6 +196,7 @@ class Ui_MainWindow(object):
         self.comboBox_change_printer_2.setCurrentText(QCoreApplication.translate("MainWindow", u"58x20", None))
         self.comboBox_change_printer_2.setPlaceholderText("")
         self.checkBox_is_printing_now.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0435\u0447\u0430\u0442\u044c \u0441\u0440\u0430\u0437\u0443 \u043f\u0440\u0438 \u0441\u043a\u0430\u043d\u0438\u0440\u043e\u0432\u043a\u0435", None))
+        self.checkBox_is_clear.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0447\u0438\u0449\u0430\u0442\u044c \u043f\u043e\u043b\u0435 \u043f\u043e\u0441\u043b\u0435 \u043a\u0430\u0436\u0434\u043e\u0439 \u043f\u0435\u0447\u0430\u0442\u0438", None))
         self.lineEdit_input_text.setText("")
         self.lineEdit_input_text.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0442\u0435\u043a\u0441\u0442 \u0434\u043b\u044f \u0433\u0435\u043d\u0435\u0440\u0430\u0446\u0438\u0438:", None))
         self.pushButton_set_print.setText("")
