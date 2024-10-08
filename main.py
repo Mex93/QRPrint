@@ -10,6 +10,7 @@ from enuuuums import QR_TYPE, PAPER_TYPE
 from components.CQR import QR
 from components.CPrinter import CPrinter
 
+
 # pyside6-uic .\ui\untitled.ui -o .\ui\untitled.py
 # pyside6-rcc .\ui\res.qrc -o .\ui\res_rc.py
 # Press the green button in the gutter to run the script.
@@ -141,7 +142,6 @@ class MainWindow(QMainWindow):
         if self.is_clear_field():
             self.ui.lineEdit_input_text.clear()
 
-
     def user_changed_code_type(self, qr_type: QR_TYPE):
         QR.set_switch(qr_type)
         qr = QR.get_qr_type()
@@ -163,7 +163,6 @@ class PaperType:
 
     def get_paper_type(self) -> PAPER_TYPE:
         return self._paper_type
-
 
 
 if __name__ == '__main__':
