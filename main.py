@@ -59,8 +59,15 @@ class MainWindow(QMainWindow):
         unit.setCurrentIndex(-1)
         unit.currentIndexChanged.connect(self.on_user_changed_paper)
 
-
+        self.ui.lineEdit_input_text.returnPressed.connect(self.on_user_now_print)
         self.ui.lineEdit_input_text.setEnabled(False)
+
+    def is_printing_now(self):
+        return self.ui.checkBox_is_printing_now.isChecked()
+
+    def on_user_now_print(self):
+        if self.is_printing_now():
+            self.on_user_set_print()
 
     @staticmethod
     def on_user_pressed_info():

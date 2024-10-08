@@ -16,17 +16,17 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QGroupBox, QHBoxLayout,
-    QLineEdit, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QSpacerItem, QVBoxLayout,
-    QWidget)
+from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QGroupBox,
+    QHBoxLayout, QLineEdit, QMainWindow, QMenu,
+    QMenuBar, QPushButton, QSizePolicy, QSpacerItem,
+    QVBoxLayout, QWidget)
 import ui.res_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(719, 297)
+        MainWindow.resize(719, 352)
         MainWindow.setMinimumSize(QSize(719, 297))
         icon = QIcon()
         icon.addFile(u":/res/images/logo.ico", QSize(), QIcon.Mode.Normal, QIcon.State.Off)
@@ -60,6 +60,11 @@ class Ui_MainWindow(object):
         self.comboBox_change_printer_2.setObjectName(u"comboBox_change_printer_2")
 
         self.verticalLayout.addWidget(self.comboBox_change_printer_2)
+
+        self.checkBox_is_printing_now = QCheckBox(self.groupBox)
+        self.checkBox_is_printing_now.setObjectName(u"checkBox_is_printing_now")
+
+        self.verticalLayout.addWidget(self.checkBox_is_printing_now)
 
 
         self.verticalLayout_4.addWidget(self.groupBox)
@@ -185,6 +190,7 @@ class Ui_MainWindow(object):
 
         self.comboBox_change_printer_2.setCurrentText(QCoreApplication.translate("MainWindow", u"58x20", None))
         self.comboBox_change_printer_2.setPlaceholderText("")
+        self.checkBox_is_printing_now.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0435\u0447\u0430\u0442\u044c \u0441\u0440\u0430\u0437\u0443 \u043f\u0440\u0438 \u0441\u043a\u0430\u043d\u0438\u0440\u043e\u0432\u043a\u0435", None))
         self.lineEdit_input_text.setText("")
         self.lineEdit_input_text.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0442\u0435\u043a\u0441\u0442 \u0434\u043b\u044f \u0433\u0435\u043d\u0435\u0440\u0430\u0446\u0438\u0438:", None))
         self.pushButton_set_print.setText("")
