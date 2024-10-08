@@ -55,6 +55,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addWidget(self.comboBox_change_printer)
 
+        self.comboBox_change_printer_2 = QComboBox(self.groupBox)
+        self.comboBox_change_printer_2.addItem("")
+        self.comboBox_change_printer_2.setObjectName(u"comboBox_change_printer_2")
+
+        self.verticalLayout.addWidget(self.comboBox_change_printer_2)
+
 
         self.verticalLayout_4.addWidget(self.groupBox)
 
@@ -170,11 +176,15 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.action_info.setText(QCoreApplication.translate("MainWindow", u"\u041e \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u043c\u0435", None))
-        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043f\u0440\u0438\u043d\u0442\u0435\u0440:", None))
+        self.groupBox.setTitle(QCoreApplication.translate("MainWindow", u"\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043f\u0440\u0438\u043d\u0442\u0435\u0440 \u0438 \u0440\u0430\u0437\u043c\u0435\u0440 \u0431\u0443\u043c\u0430\u0433\u0438:", None))
         self.comboBox_change_printer.setItemText(0, QCoreApplication.translate("MainWindow", u"godex", None))
 
         self.comboBox_change_printer.setCurrentText(QCoreApplication.translate("MainWindow", u"godex", None))
         self.comboBox_change_printer.setPlaceholderText("")
+        self.comboBox_change_printer_2.setItemText(0, QCoreApplication.translate("MainWindow", u"58x20", None))
+
+        self.comboBox_change_printer_2.setCurrentText(QCoreApplication.translate("MainWindow", u"58x20", None))
+        self.comboBox_change_printer_2.setPlaceholderText("")
         self.lineEdit_input_text.setText("")
         self.lineEdit_input_text.setPlaceholderText(QCoreApplication.translate("MainWindow", u"\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0442\u0435\u043a\u0441\u0442 \u0434\u043b\u044f \u0433\u0435\u043d\u0435\u0440\u0430\u0446\u0438\u0438:", None))
         self.pushButton_set_print.setText("")

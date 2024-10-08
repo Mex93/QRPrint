@@ -6,7 +6,7 @@ from PySide6.QtGui import QFontDatabase
 
 from ui.untitled import Ui_MainWindow
 from common import send_message_box, SMBOX_ICON_TYPE, get_about_text, get_rules_text
-from enuuuums import QR_TYPE
+from enuuuums import QR_TYPE, PAPER_TYPE
 from components.CQR import QR
 from components.CPrinter import CPrinter
 
@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         QFontDatabase.addApplicationFont("designs/Iosevka Bold.ttf")
-        self.setWindowTitle(f'Печать QR Kvant 2024 v0.1 Бумага 58 на 20')
+        self.setWindowTitle(f'Печать QR Kvant 2024 v0.1')
 
         self.ui.pushButton_set_print.clicked.connect(self.on_user_set_print)
         self.ui.pushButton_qr.clicked.connect(lambda: self.user_changed_code_type(QR_TYPE.QR_CUB))
@@ -33,9 +33,11 @@ class MainWindow(QMainWindow):
             lambda: self.user_changed_code_type(QR_TYPE.QR_CODE_WITH_TEXT))
         self.ui.action_info.triggered.connect(self.on_user_pressed_info)
 
+        self.cpaper = PaperType()
         QR.set_main_window(self.ui)
         QR.set_all_flat()
 
+        # comboBox_change_printer_2
         self.cprinter = CPrinter()
         printers = self.cprinter.get_printers()
         if printers is not None:
@@ -46,6 +48,17 @@ class MainWindow(QMainWindow):
 
             unit.setCurrentIndex(-1)
             unit.currentIndexChanged.connect(self.on_user_changed_printer)
+
+        # для бумаги
+        unit = self.ui.comboBox_change_printer_2
+        unit.clear()
+        paper_names = ["58x20", "48x8.5"]
+        for index, paper_name in enumerate(paper_names, 0):
+            unit.addItem(paper_name)
+
+        unit.setCurrentIndex(-1)
+        unit.currentIndexChanged.connect(self.on_user_changed_paper)
+
 
         self.ui.lineEdit_input_text.setEnabled(False)
 
@@ -58,6 +71,15 @@ class MainWindow(QMainWindow):
                               f"{get_rules_text()}",
                          title="О программе",
                          variant_yes="Закрыть", variant_no="")
+
+    def on_user_changed_paper(self):
+        text = self.ui.comboBox_change_printer_2.currentText()
+        if text == "58x20":
+            self.cpaper.set_paper_type(PAPER_TYPE.PAPER_BIG)
+        elif text == "48x8.5":
+            self.cpaper.set_paper_type(PAPER_TYPE.PAPER_SMALL)
+        else:
+            self.cpaper.set_paper_type(PAPER_TYPE.PAPER_NONE)
 
     def on_user_changed_printer(self):
         text = self.ui.comboBox_change_printer.currentText()
@@ -72,6 +94,14 @@ class MainWindow(QMainWindow):
                              variant_yes="Ок", variant_no="", callback=None)
 
             return
+        if self.cpaper.get_paper_type() == PAPER_TYPE.PAPER_NONE:
+            send_message_box(icon_style=SMBOX_ICON_TYPE.ICON_ERROR,
+                             text=f"Тип бумаги не выбран!",
+                             title="Ошибка",
+                             variant_yes="Ок", variant_no="", callback=None)
+
+            return
+
         current_qr = QR.get_qr_type()
         if current_qr == QR_TYPE.QR_NONE:
             send_message_box(icon_style=SMBOX_ICON_TYPE.ICON_ERROR,
@@ -91,7 +121,7 @@ class MainWindow(QMainWindow):
             return
 
         input_text = input_text.upper().replace(" ", "")
-        if not self.cprinter.send_print_label(input_text, current_qr):
+        if not self.cprinter.send_print_label(input_text, current_qr, self.cpaper.get_paper_type()):
             send_message_box(icon_style=SMBOX_ICON_TYPE.ICON_ERROR,
                              text=f"Ошибка печати!",
                              title="Ошибка",
@@ -111,6 +141,15 @@ class MainWindow(QMainWindow):
             self.ui.lineEdit_input_text.setMaxLength(max_len)
 
 
+class PaperType:
+    def __init__(self):
+        self._paper_type = PAPER_TYPE.PAPER_NONE
+
+    def set_paper_type(self, paper_type: PAPER_TYPE):
+        self._paper_type = paper_type
+
+    def get_paper_type(self) -> PAPER_TYPE:
+        return self._paper_type
 
 
 

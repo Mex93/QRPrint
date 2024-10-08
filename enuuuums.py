@@ -13,3 +13,8 @@ class QR_TYPE(IntEnum):
     QR_CUB = auto(),
     QR_CODE_WITH_TEXT = auto(),
     QR_CODE_NO_TEXT = auto(),
+
+class PAPER_TYPE(IntEnum):
+    PAPER_NONE = auto(),
+    PAPER_SMALL = auto(),
+    PAPER_BIG = auto(),

@@ -3,7 +3,7 @@ import sys
 import os
 import win32print
 
-from enuuuums import QR_TYPE
+from enuuuums import QR_TYPE, PAPER_TYPE
 
 
 class CPrinter:
@@ -54,22 +54,30 @@ class CPrinter:
         if len(printer_cleared_data_list) > 0:
             return printer_cleared_data_list
 
-    def get_barcode_file_name(self, qr_type: QR_TYPE) -> str | None:
-        match qr_type:
-            case QR_TYPE.QR_CUB:
-                return "barcode_template_qr"
-            case QR_TYPE.QR_CODE_NO_TEXT:
-                return "barcode_template_no_text"
-            case QR_TYPE.QR_CODE_WITH_TEXT:
-                return "barcode_template_with_text"
+    def get_barcode_file_name(self, qr_type: QR_TYPE, paper_type: PAPER_TYPE) -> str | None:
+        if paper_type == PAPER_TYPE.PAPER_BIG:
+            match qr_type:
+                case QR_TYPE.QR_CUB:
+                    return "barcode_template_qr"
+                case QR_TYPE.QR_CODE_NO_TEXT:
+                    return "barcode_template_no_text"
+                case QR_TYPE.QR_CODE_WITH_TEXT:
+                    return "barcode_template_with_text"
+        elif paper_type == PAPER_TYPE.PAPER_SMALL:
+            match qr_type:
+                case QR_TYPE.QR_CUB:
+                    return "barcode_template_qr_small"
+                case QR_TYPE.QR_CODE_NO_TEXT:
+                    return "barcode_template_no_text_small"
+                case QR_TYPE.QR_CODE_WITH_TEXT:
+                    return "barcode_template_with_text_small"
 
-    def send_print_label(self, text: str, qr_type: QR_TYPE) -> bool:
+    def send_print_label(self, text: str, qr_type: QR_TYPE, paper_type: PAPER_TYPE) -> bool:
         if not self.get_current_printer_name():
             return False
-        print(1)
         if len(text) > 0:
             if os.path.exists(self.__folder_name):
-                current_file = self.get_barcode_file_name(qr_type)
+                current_file = self.get_barcode_file_name(qr_type, paper_type)
                 if current_file:
                     with open(f'{self.__folder_name}/{current_file}.txt', 'r') as file:
                         ezpl_data = file.read()
