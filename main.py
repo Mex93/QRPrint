@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QMainWindow
 from PySide6.QtGui import QFontDatabase
 
 from ui.untitled import Ui_MainWindow
-from common import send_message_box, SMBOX_ICON_TYPE, get_about_text, get_rules_text
+from common import send_message_box, SMBOX_ICON_TYPE, get_about_text, get_rules_text, is_valid_qr
 from enuuuums import QR_TYPE, PAPER_TYPE
 from components.CQR import QR
 from components.CPrinter import CPrinter
@@ -131,6 +131,13 @@ class MainWindow(QMainWindow):
 
             return
 
+        if not is_valid_qr(input_text):
+            send_message_box(icon_style=SMBOX_ICON_TYPE.ICON_ERROR,
+                             text=f"Разрешены только символы: A-Z, a-z, 0-9!",
+                             title="Ошибка",
+                             variant_yes="Ок", variant_no="", callback=None)
+            self.ui.lineEdit_input_text.clear()
+            return
         input_text = input_text.upper().replace(" ", "")
         if not self.cprinter.send_print_label(input_text, current_qr, self.cpaper.get_paper_type()):
             send_message_box(icon_style=SMBOX_ICON_TYPE.ICON_ERROR,

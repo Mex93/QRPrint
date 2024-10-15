@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QMessageBox
 from PySide6 import QtWidgets
 from PySide6.QtGui import QIcon, QFont
 from PySide6.QtCore import QSize
+import re
 
 from enuuuums import SMBOX_ICON_TYPE
 
@@ -23,6 +24,10 @@ def get_rules_text() -> str:
         "5) Невыполнение любого из пунктов правил влечёт нарушение пользователем своих обязательств."
     )
 
+def is_valid_qr(text: str) -> bool:
+    if re.search(r'[^a-zA-Z0-9]', text):
+        return False
+    return True
 
 def get_about_text() -> str:
     current_year = datetime.now().year
